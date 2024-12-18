@@ -28,11 +28,3 @@ def get_date(date_string: str) -> str:
     date = date_string.split("T")[0]
     day, month, year = date.split("-")
     return f"{day}.{month}.{year}"
-
-
-user_input = input("Введите номер карты или счета: ")
-masked_output = mask_account_card(user_input)
-print(masked_output)
-
-
-print(get_date("2024-03-11T02:26:18.671407"))
