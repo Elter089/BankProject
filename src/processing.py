@@ -9,7 +9,7 @@ def filter_by_state(list_dict: list, state: str = "EXECUTED") -> list:
 
 
 def sorted_by_date(list_dict: list, sort: bool = True) -> list:
-    """Функция возвращает отсортированный по дате список"""
+    """Функция возвращает отсортированные по дате списки"""
 
     sorted_list_dict = sorted(list_dict, key=lambda i: i["date"], reverse=sort)
     return sorted_list_dict
