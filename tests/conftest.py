@@ -130,3 +130,54 @@ def different_time_formats():
     ]
 
 
+@pytest.fixture
+def test_data():
+    """Фикстура с тестовыми данными"""
+    return [
+        {"id": 1, "state": "EXECUTED"},
+        {"id": 2, "state": "CANCELED"},
+        {"id": 3, "state": "EXECUTED"},
+        {"id": 4, "state": "PENDING"},
+        {"id": 5, "state": "EXECUTED"}
+    ]
+
+
+@pytest.fixture
+def empty_data():
+    """Фикстура с пустым списком"""
+    return []
+
+
+@pytest.fixture
+def processing_test_data():
+    """Фикстура с тестовыми данными"""
+    return [
+        {"id": 1, "date": "2023-07-15T10:00:00.000"},
+        {"id": 2, "date": "2023-07-14T15:30:00.000"},
+        {"id": 3, "date": "2023-07-16T08:45:00.000"},
+        {"id": 4, "date": "2023-07-15T12:20:00.000"}
+    ]
+
+
+@pytest.fixture
+def expected_sorted_desc():
+    """Фикстура с ожидаемым результатом сортировки по убыванию"""
+    return [
+        {"id": 3, "date": "2023-07-16T08:45:00.000"},
+        {"id": 1, "date": "2023-07-15T10:00:00.000"},
+        {"id": 4, "date": "2023-07-15T12:20:00.000"},
+        {"id": 2, "date": "2023-07-14T15:30:00.000"}
+    ]
+
+
+@pytest.fixture
+def expected_sorted_asc():
+    """Фикстура с ожидаемым результатом сортировки по возрастанию"""
+    return [
+        {"id": 2, "date": "2023-07-14T15:30:00.000"},
+        {"id": 1, "date": "2023-07-15T10:00:00.000"},
+        {"id": 4, "date": "2023-07-15T12:20:00.000"},
+        {"id": 3, "date": "2023-07-16T08:45:00.000"}
+    ]
+
+
