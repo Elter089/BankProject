@@ -181,3 +181,118 @@ def expected_sorted_asc():
     ]
 
 
+@pytest.fixture
+def simple_transactions():
+    """Простой список транзакций с разными валютами"""
+    return [
+        {"id": 1, "amount": 100, "currency": "USD"},
+        {"id": 2, "amount": 200, "currency": "EUR"},
+        {"id": 3, "amount": 300, "currency": "USD"},
+        {"id": 4, "amount": 400, "currency": "JPY"}
+    ]
+
+
+@pytest.fixture
+def empty_transactions():
+    """Пустой список транзакций"""
+    return []
+
+
+@pytest.fixture
+def usd_only_transactions():
+    """Список транзакций только в USD"""
+    return [
+        {"id": 1, "amount": 100, "currency": "USD"},
+        {"id": 2, "amount": 200, "currency": "USD"},
+        {"id": 3, "amount": 300, "currency": "USD"}
+    ]
+
+
+@pytest.fixture
+def transactions_without_currency():
+    """Список транзакций, где у некоторых отсутствует валюта"""
+    return [
+        {"id": 1, "amount": 100, "currency": "USD"},
+        {"id": 2, "amount": 200},
+        {"id": 3, "amount": 300, "currency": "USD"},
+        {"id": 4, "amount": 400}
+    ]
+
+
+@pytest.fixture
+def simple_transactions_tran_desc():
+    """Простой список транзакций"""
+    return [
+        {"account_id": "1234", "amount": 100, "currency": "USD"},
+        {"account_id": "5678", "amount": 200, "currency": "EUR"}
+    ]
+
+
+@pytest.fixture
+def empty_transactions_tran_desc():
+    """Пустой список транзакций"""
+    return []
+
+
+@pytest.fixture
+def transactions_with_missing_fields():
+    """Транзакции с отсутствующими полями"""
+    return [
+        {"account_id": "1234", "amount": 100},
+        {"amount": 200, "currency": "EUR"},
+        {"account_id": "5678", "currency": "USD"}
+    ]
+
+
+@pytest.fixture
+def transactions_with_none_values():
+    """Транзакции с None значениями"""
+    return [
+        {"account_id": None, "amount": 100, "currency": "USD"},
+        {"account_id": "5678", "amount": None, "currency": "EUR"},
+        {"account_id": "9012", "amount": 300, "currency": None}
+    ]
+
+
+@pytest.fixture
+def small_range_params():
+    """Параметры для небольшого диапазона номеров"""
+    return {
+        'start': 1,
+        'end': 5,
+        'expected': [
+            '0000 0000 0000 0001',
+            '0000 0000 0000 0002',
+            '0000 0000 0000 0003',
+            '0000 0000 0000 0004',
+            '0000 0000 0000 0005'
+        ]
+    }
+
+
+@pytest.fixture
+def single_number_params():
+    """Параметры для генерации одного номера"""
+    return {
+        'start': 1234567890123456,
+        'end': 1234567890123456,
+        'expected': ['1234 5678 9012 3456']
+    }
+
+
+@pytest.fixture
+def end_range_params():
+    """Параметры для проверки конца диапазона"""
+    return {
+        'start': 9999999999999995,
+        'end': 9999999999999999,
+        'expected': [
+            '9999 9999 9999 9995',
+            '9999 9999 9999 9996',
+            '9999 9999 9999 9997',
+            '9999 9999 9999 9998',
+            '9999 9999 9999 9999'
+        ]
+    }
+
+
