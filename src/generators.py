@@ -9,17 +9,15 @@ def filter_by_currency(transactions, currency='USD'):
     Returns:
         filter: Итератор отфильтрованных транзакций
     """
-    return filter(lambda x: x.get('currency') == currency, transactions)
+    return filter(lambda x: x['operationAmount']['currency'] == currency, transactions)
 
 
 def transaction_descriptions(transactions):
     """Принимает список транзакций,
-    формирует строку описания ля каждой транзакции,
+    формирует строку описания для каждой транзакции,
     возвращает описания по одному используя yield"""
     for transaction in transactions:
-        yield (f"{transaction.get('account_id')} "
-               f"-> {transaction.get('amount')} "
-               f"{transaction.get('currency')}")
+        yield transaction['description']
 
 
 def card_number_generator(start=1, end=9999999999999999):

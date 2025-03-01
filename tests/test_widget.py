@@ -1,6 +1,6 @@
 import pytest
 
-from src.widget import mask_account_card, get_date, get_mask_card_number, get_mask_account
+from src.widget import get_date, mask_account_card
 
 
 def test_mask_account_card_account_recognition():
@@ -56,4 +56,3 @@ def test_mask_account_card_valid_input(input_data, expected_output):
 def test_valid_dates(input_date, expected_output):
     """Тест корректных дат"""
     assert get_date(input_date) == expected_output
-

@@ -1,98 +1,71 @@
-from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
-
 import pytest
 
-def test_filter_by_currency_simple(simple_transactions):
-    """Тест фильтрации USD транзакций из смешанного списка"""
-    result = list(filter_by_currency(simple_transactions, 'USD'))
-    assert len(result) == 2
-    assert all(t['currency'] == 'USD' for t in result)
+from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 
 
-def test_filter_by_currency_empty(empty_transactions):
-    """Тест фильтрации пустого списка"""
-    result = list(filter_by_currency(empty_transactions))
-    assert len(result) == 0
+def test_filter_by_currency_mixed(transactions_fixture):
+    filtered = list(filter_by_currency(transactions_fixture, 'USD'))
+    assert len(filtered) == 2
+    assert all(t['operationAmount']['currency'] == 'USD' for t in filtered)
 
 
-def test_filter_by_currency_usd_only(usd_only_transactions):
-    """Тест фильтрации списка, где все транзакции в USD"""
-    result = list(filter_by_currency(usd_only_transactions))
-    assert len(result) == 3
-    assert all(t['currency'] == 'USD' for t in result)
+def test_filter_by_currency_empty(empty_transactions_fixture):
+    filtered = list(filter_by_currency(empty_transactions_fixture))
+    assert len(filtered) == 0
 
 
-def test_filter_by_currency_missing_currency(transactions_without_currency):
-    """Тест фильтрации списка с отсутствующими валютами"""
-    result = list(filter_by_currency(transactions_without_currency))
-    assert len(result) == 2
-    assert all(t['currency'] == 'USD' for t in result)
+def test_filter_by_currency_single(single_transaction_fixture):
+    filtered = list(filter_by_currency(single_transaction_fixture))
+    assert len(filtered) == 1
+    assert filtered[0]['operationAmount']['currency'] == 'USD'
 
 
-@pytest.mark.parametrize("currency,expected_count", [
-    ("USD", 2),
-    ("EUR", 1),
-    ("JPY", 1),
-    ("GBP", 0)
+def test_filter_by_currency_all_same(same_currency_transactions_fixture):
+    filtered = list(filter_by_currency(same_currency_transactions_fixture))
+    assert len(filtered) == 2
+    assert all(t['operationAmount']['currency'] == 'USD' for t in filtered)
+
+
+def test_filter_by_currency_no_matches(transactions_fixture):
+    filtered = list(filter_by_currency(transactions_fixture, 'GBP'))
+    assert len(filtered) == 0
+
+
+@pytest.mark.parametrize("transactions, currency", [
+    ([], "USD"),
+    ([], "EUR"),
+    ([], "GBP")
 ])
-def test_filter_by_currency_parametrized(simple_transactions, currency, expected_count):
-    """Параметризованный тест для разных валют"""
-    result = list(filter_by_currency(simple_transactions, currency))
-    assert len(result) == expected_count
-    if expected_count > 0:
-        assert all(t['currency'] == currency for t in result)
+def test_empty_transactions(transactions, currency):
+    """
+    Тест работы с пустым списком транзакций
+    """
+    result = list(filter_by_currency(transactions, currency))
+    assert result == []
 
 
-def simple_transactions_tran_desc(simple_transactions):
-    """Тест формирования описаний для простых транзакций"""
-    descriptions = list(transaction_descriptions(simple_transactions))
-    assert len(descriptions) == 2
-    assert descriptions[0] == "1234 -> 100 USD"
-    assert descriptions[1] == "5678 -> 200 EUR"
+def test_single_transaction(single_transaction):
+    descriptions = list(transaction_descriptions(single_transaction))
+    assert descriptions == ['Coffee purchase']
 
 
-def empty_transactions_tran_desc(empty_transactions):
-    """Тест обработки пустого списка транзакций"""
-    descriptions = list(transaction_descriptions(empty_transactions))
-    assert len(descriptions) == 0
+def test_multiple_transactions(multiple_transactions):
+    descriptions = list(transaction_descriptions(multiple_transactions))
+    assert descriptions == ['Grocery shopping', 'Gas station', 'Restaurant bill']
 
 
-def test_missing_fields(transactions_with_missing_fields):
-    """Тест обработки транзакций с отсутствующими полями"""
-    descriptions = list(transaction_descriptions(transactions_with_missing_fields))
-    assert len(descriptions) == 3
-    assert descriptions[0] == "1234 -> 100 None"
-    assert descriptions[1] == "None -> 200 EUR"
-    assert descriptions[2] == "5678 -> None USD"
+def test_transactions_with_empty_description(transactions_with_empty_description):
+    descriptions = list(transaction_descriptions(transactions_with_empty_description))
+    assert descriptions == ['', 'Valid description', '']
 
 
-def test_none_values(transactions_with_none_values):
-    """Тест обработки транзакций с None значениями"""
-    descriptions = list(transaction_descriptions(transactions_with_none_values))
-    assert len(descriptions) == 3
-    assert descriptions[0] == "None -> 100 USD"
-    assert descriptions[1] == "5678 -> None EUR"
-    assert descriptions[2] == "9012 -> 300 None"
-
-
-@pytest.mark.parametrize("transaction,expected", [
-    (
-        {"account_id": "1234", "amount": 100, "currency": "USD"},
-        "1234 -> 100 USD"
-    ),
-    (
-        {"account_id": "", "amount": 0, "currency": ""},
-        " -> 0 "
-    ),
-    (
-        {},
-        "None -> None None"
-    )
+@pytest.mark.parametrize("transactions, expected", [
+    ([{'description': ''}, {'description': ''}], ['', '']),
+    ([{'description': ''}, {'description': 'Valid'}, {'description': ''}], ['', 'Valid', '']),
 ])
-def test_single_transaction_description(transaction, expected):
-    """Параметризованный тест для отдельных транзакций"""
-    description = next(transaction_descriptions([transaction]))
-    assert description == expected
+def test_empty_descriptions(transactions, expected):
+    result = list(transaction_descriptions(transactions))
+    assert result == expected
 
 
 def test_small_range(small_range_params):

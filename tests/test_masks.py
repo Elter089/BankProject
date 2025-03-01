@@ -1,8 +1,6 @@
-from unittest import expectedFailure
-
 import pytest
 
-from src.masks import get_mask_card_number, get_mask_account
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def test_get_mask_card_number_string_input():
@@ -123,5 +121,3 @@ def test_get_mask_card_number_different_numbers():
 def test_get_mask_card_number_with_integer():
     """Тест работы функции с целочисленным входным значением"""
     assert get_mask_card_number(1234567891234567) == "1234 56** **** 4567"
-
-

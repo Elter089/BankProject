@@ -182,75 +182,104 @@ def expected_sorted_asc():
 
 
 @pytest.fixture
-def simple_transactions():
-    """Простой список транзакций с разными валютами"""
+def transactions_fixture():
     return [
-        {"id": 1, "amount": 100, "currency": "USD"},
-        {"id": 2, "amount": 200, "currency": "EUR"},
-        {"id": 3, "amount": 300, "currency": "USD"},
-        {"id": 4, "amount": 400, "currency": "JPY"}
+        {
+            "id": 1,
+            "operationAmount": {
+                "amount": "100.50",
+                "currency": "USD"
+            }
+        },
+        {
+            "id": 2,
+            "operationAmount": {
+                "amount": "50.25",
+                "currency": "EUR"
+            }
+        },
+        {
+            "id": 3,
+            "operationAmount": {
+                "amount": "75.00",
+                "currency": "USD"
+            }
+        },
+        {
+            "id": 4,
+            "operationAmount": {
+                "amount": "1000.00",
+                "currency": "RUB"
+            }
+        }
+    ]
+
+
+@pytest.fixture
+def empty_transactions_fixture():
+    return []
+
+
+@pytest.fixture
+def single_transaction_fixture():
+    return [
+        {
+            "id": 1,
+            "operationAmount": {
+                "amount": "100.50",
+                "currency": "USD"
+            }
+        }
+    ]
+
+
+@pytest.fixture
+def same_currency_transactions_fixture():
+    return [
+        {
+            "id": 1,
+            "operationAmount": {
+                "amount": "100.50",
+                "currency": "USD"
+            }
+        },
+        {
+            "id": 2,
+            "operationAmount": {
+                "amount": "75.00",
+                "currency": "USD"
+            }
+        }
     ]
 
 
 @pytest.fixture
 def empty_transactions():
-    """Пустой список транзакций"""
     return []
 
 
 @pytest.fixture
-def usd_only_transactions():
-    """Список транзакций только в USD"""
+def single_transaction():
     return [
-        {"id": 1, "amount": 100, "currency": "USD"},
-        {"id": 2, "amount": 200, "currency": "USD"},
-        {"id": 3, "amount": 300, "currency": "USD"}
+        {'description': 'Coffee purchase'}
     ]
 
 
 @pytest.fixture
-def transactions_without_currency():
-    """Список транзакций, где у некоторых отсутствует валюта"""
+def multiple_transactions():
     return [
-        {"id": 1, "amount": 100, "currency": "USD"},
-        {"id": 2, "amount": 200},
-        {"id": 3, "amount": 300, "currency": "USD"},
-        {"id": 4, "amount": 400}
+        {'description': 'Grocery shopping'},
+        {'description': 'Gas station'},
+        {'description': 'Restaurant bill'}
     ]
 
 
 @pytest.fixture
-def simple_transactions_tran_desc():
-    """Простой список транзакций"""
+def transactions_with_empty_description():
     return [
-        {"account_id": "1234", "amount": 100, "currency": "USD"},
-        {"account_id": "5678", "amount": 200, "currency": "EUR"}
-    ]
-
-
-@pytest.fixture
-def empty_transactions_tran_desc():
-    """Пустой список транзакций"""
-    return []
-
-
-@pytest.fixture
-def transactions_with_missing_fields():
-    """Транзакции с отсутствующими полями"""
-    return [
-        {"account_id": "1234", "amount": 100},
-        {"amount": 200, "currency": "EUR"},
-        {"account_id": "5678", "currency": "USD"}
-    ]
-
-
-@pytest.fixture
-def transactions_with_none_values():
-    """Транзакции с None значениями"""
-    return [
-        {"account_id": None, "amount": 100, "currency": "USD"},
-        {"account_id": "5678", "amount": None, "currency": "EUR"},
-        {"account_id": "9012", "amount": 300, "currency": None}
+        {'description': ''},
+        {'description': 'Valid description'},
+        {'description': ''}
     ]
 
 
@@ -294,5 +323,3 @@ def end_range_params():
             '9999 9999 9999 9999'
         ]
     }
-
-

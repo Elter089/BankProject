@@ -188,5 +188,3 @@ def test_sorted_by_date_default(test_input, expected):
     :param expected: ожидаемый результат
     """
     assert sorted_by_date(test_input) == expected
-
-
