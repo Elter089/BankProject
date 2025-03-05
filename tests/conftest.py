@@ -185,31 +185,21 @@ def expected_sorted_asc():
 def transactions_fixture():
     return [
         {
-            "id": 1,
             "operationAmount": {
-                "amount": "100.50",
-                "currency": "USD"
+                "currency": {"code": "USD"},
+                "amount": 100
             }
         },
         {
-            "id": 2,
             "operationAmount": {
-                "amount": "50.25",
-                "currency": "EUR"
+                "currency": {"code": "EUR"},
+                "amount": 200
             }
         },
         {
-            "id": 3,
             "operationAmount": {
-                "amount": "75.00",
-                "currency": "USD"
-            }
-        },
-        {
-            "id": 4,
-            "operationAmount": {
-                "amount": "1000.00",
-                "currency": "RUB"
+                "currency": {"code": "USD"},
+                "amount": 300
             }
         }
     ]
@@ -222,32 +212,27 @@ def empty_transactions_fixture():
 
 @pytest.fixture
 def single_transaction_fixture():
-    return [
-        {
-            "id": 1,
-            "operationAmount": {
-                "amount": "100.50",
-                "currency": "USD"
-            }
+    return [{
+        "operationAmount": {
+            "currency": {"code": "USD"},
+            "amount": 100
         }
-    ]
+    }]
 
 
 @pytest.fixture
 def same_currency_transactions_fixture():
     return [
         {
-            "id": 1,
             "operationAmount": {
-                "amount": "100.50",
-                "currency": "USD"
+                "currency": {"code": "USD"},
+                "amount": 100
             }
         },
         {
-            "id": 2,
             "operationAmount": {
-                "amount": "75.00",
-                "currency": "USD"
+                "currency": {"code": "USD"},
+                "amount": 200
             }
         }
     ]

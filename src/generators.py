@@ -9,7 +9,7 @@ def filter_by_currency(transactions, currency='USD'):
     Returns:
         filter: Итератор отфильтрованных транзакций
     """
-    return filter(lambda x: x['operationAmount']['currency'] == currency, transactions)
+    return filter(lambda x: x['operationAmount']['currency']['code'] == currency, transactions)
 
 
 def transaction_descriptions(transactions):

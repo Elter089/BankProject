@@ -6,7 +6,7 @@ from src.generators import card_number_generator, filter_by_currency, transactio
 def test_filter_by_currency_mixed(transactions_fixture):
     filtered = list(filter_by_currency(transactions_fixture, 'USD'))
     assert len(filtered) == 2
-    assert all(t['operationAmount']['currency'] == 'USD' for t in filtered)
+    assert all(t['operationAmount']['currency']['code'] == 'USD' for t in filtered)
 
 
 def test_filter_by_currency_empty(empty_transactions_fixture):
@@ -15,15 +15,15 @@ def test_filter_by_currency_empty(empty_transactions_fixture):
 
 
 def test_filter_by_currency_single(single_transaction_fixture):
-    filtered = list(filter_by_currency(single_transaction_fixture))
+    filtered = list(filter_by_currency(single_transaction_fixture, 'USD'))
     assert len(filtered) == 1
-    assert filtered[0]['operationAmount']['currency'] == 'USD'
+    assert filtered[0]['operationAmount']['currency']['code'] == 'USD'
 
 
 def test_filter_by_currency_all_same(same_currency_transactions_fixture):
-    filtered = list(filter_by_currency(same_currency_transactions_fixture))
+    filtered = list(filter_by_currency(same_currency_transactions_fixture, 'USD'))
     assert len(filtered) == 2
-    assert all(t['operationAmount']['currency'] == 'USD' for t in filtered)
+    assert all(t['operationAmount']['currency']['code'] == 'USD' for t in filtered)
 
 
 def test_filter_by_currency_no_matches(transactions_fixture):
