@@ -181,3 +181,130 @@ def expected_sorted_asc():
     ]
 
 
+@pytest.fixture
+def transactions_fixture():
+    return [
+        {
+            "operationAmount": {
+                "currency": {"code": "USD"},
+                "amount": 100
+            }
+        },
+        {
+            "operationAmount": {
+                "currency": {"code": "EUR"},
+                "amount": 200
+            }
+        },
+        {
+            "operationAmount": {
+                "currency": {"code": "USD"},
+                "amount": 300
+            }
+        }
+    ]
+
+
+@pytest.fixture
+def empty_transactions_fixture():
+    return []
+
+
+@pytest.fixture
+def single_transaction_fixture():
+    return [{
+        "operationAmount": {
+            "currency": {"code": "USD"},
+            "amount": 100
+        }
+    }]
+
+
+@pytest.fixture
+def same_currency_transactions_fixture():
+    return [
+        {
+            "operationAmount": {
+                "currency": {"code": "USD"},
+                "amount": 100
+            }
+        },
+        {
+            "operationAmount": {
+                "currency": {"code": "USD"},
+                "amount": 200
+            }
+        }
+    ]
+
+
+@pytest.fixture
+def empty_transactions():
+    return []
+
+
+@pytest.fixture
+def single_transaction():
+    return [
+        {'description': 'Coffee purchase'}
+    ]
+
+
+@pytest.fixture
+def multiple_transactions():
+    return [
+        {'description': 'Grocery shopping'},
+        {'description': 'Gas station'},
+        {'description': 'Restaurant bill'}
+    ]
+
+
+@pytest.fixture
+def transactions_with_empty_description():
+    return [
+        {'description': ''},
+        {'description': 'Valid description'},
+        {'description': ''}
+    ]
+
+
+@pytest.fixture
+def small_range_params():
+    """Параметры для небольшого диапазона номеров"""
+    return {
+        'start': 1,
+        'end': 5,
+        'expected': [
+            '0000 0000 0000 0001',
+            '0000 0000 0000 0002',
+            '0000 0000 0000 0003',
+            '0000 0000 0000 0004',
+            '0000 0000 0000 0005'
+        ]
+    }
+
+
+@pytest.fixture
+def single_number_params():
+    """Параметры для генерации одного номера"""
+    return {
+        'start': 1234567890123456,
+        'end': 1234567890123456,
+        'expected': ['1234 5678 9012 3456']
+    }
+
+
+@pytest.fixture
+def end_range_params():
+    """Параметры для проверки конца диапазона"""
+    return {
+        'start': 9999999999999995,
+        'end': 9999999999999999,
+        'expected': [
+            '9999 9999 9999 9995',
+            '9999 9999 9999 9996',
+            '9999 9999 9999 9997',
+            '9999 9999 9999 9998',
+            '9999 9999 9999 9999'
+        ]
+    }
